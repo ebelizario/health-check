@@ -65,5 +65,5 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except Exception as e:
+    except Exception as err:
         print "Something went wrong: {err}".format(err=err)
