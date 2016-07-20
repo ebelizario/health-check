@@ -1,5 +1,5 @@
 class ApiHealthCheck(object):
-    """ Base SQL Alchemey class """
+    '''API Health Check Handler'''
     def __init__(self, adapter):
         self.adapter = adapter
 

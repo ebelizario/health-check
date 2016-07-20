@@ -13,9 +13,9 @@ sys.path.insert(0, os.path.realpath(
                 os.path.dirname(__file__)) + '/../conf')
 
 from apihealth.adapters.ping import PingAdapter
-from apihealth.application import check_health, print_header
+from apihealth.application import check_health
 from apihealth.handlers import Context, ApiHealthCheck
-from config import API_URLS
+from config import API_URLS, HEALTH_LABEL
 
 context = Context()
 context.api_check_handler = ApiHealthCheck(PingAdapter())
@@ -36,6 +36,24 @@ def check_all_apis():
 def _check_health_job(context, url, title):
     '''Single job for multi-threaded use'''
     result = check_health(context, url, title)
+    print_results(result, url, title)
+
+
+def print_header():
+    print "\t\t".join(["API", "Status"])
+    print "\t\t".join(["---", "------"])
+
+
+def print_results(result, url, title):
+    print "{title} \t{result}".format(
+        title=title,
+        url=url,
+        result=_map_health_label(result)
+    )
+
+
+def _map_health_label(result):
+    return HEALTH_LABEL[result][1] + HEALTH_LABEL[result][0] + HEALTH_LABEL[result][2]
 
 
 def main():
