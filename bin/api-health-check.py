@@ -27,7 +27,7 @@ def check_all_apis():
     for title, url in API_URLS:
         job = multiprocessing.Process(
             target=_check_health_job,
-            args=(context, url, title)
+            args=(context, url, title),
         )
         threads.append(job)
         job.start()
@@ -35,20 +35,20 @@ def check_all_apis():
 
 def _check_health_job(context, url, title):
     '''Single job for multi-threaded use'''
-    result = check_health(context, url, title)
-    print_results(result, url, title)
+    result, avg_time = check_health(context, url, title)
+    print_results(title, result, avg_time)
 
 
 def print_header():
-    print "\t\t".join(["API", "Status"])
-    print "\t\t".join(["---", "------"])
+    print "\t\t".join(["API", "Status", "Avg Time"])
+    print "\t\t".join(["---", "------", "--------"])
 
 
-def print_results(result, url, title):
-    print "{title} \t{result}".format(
+def print_results(title, result, avg_time):
+    print "{title} \t{result} \t\t{avg_time}".format(
         title=title,
-        url=url,
-        result=_map_health_label(result)
+        result=_map_health_label(result),
+        avg_time=avg_time,
     )
 
 
