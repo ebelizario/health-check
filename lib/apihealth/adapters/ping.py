@@ -5,7 +5,7 @@ class PingAdapter(object):
     def ping_url(url):
         try:
             # TODO: Add something for packet loss
-            result = pyping.ping(url, udp=True)
+            result = pyping.ping(url, udp=True, count=3)
             if result.ret_code == 0:
                 health = 0
                 avg_rtt = result.avg_rtt
